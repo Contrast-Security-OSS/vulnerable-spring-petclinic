@@ -20,7 +20,7 @@ services:
     # itself will handle initializing the database tables and schemas along with
     # initial sample data population.
     - ./WebApplication/src/main/resources/db/mysql/user.sql:/docker-entrypoint-initdb.d/a-init.sql
-    # needed so that 'petclinic-app' doesn't start until the DB service is ready  
+    # needed so that 'webapplication' doesn't start until the DB service is ready
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 5s
@@ -46,7 +46,7 @@ services:
     ports:
       - 8082:8082
       - 1389:1389
-  petclinic-app:
+  webapplication:
     environment:
       CONTRAST__SERVER__NAME: "Petclinic"
       CONTRAST__APPLICATION__NAME: "Web-Application"
@@ -54,7 +54,7 @@ services:
       CONTRAST__PROTECT__ENABLE: "true"
       CONTRAST__OBSERVE__ENABLE: "true"
     image: local/petclinic:latest
-    container_name: petclinic-app
+    container_name: webapplication
     build:
       context: ./
       dockerfile: WebApplication/Dockerfile
